@@ -1,0 +1,2 @@
+function capacityFind_(date,candidate){var bookings=readTable_('Booking Data').rows; var closed=readTable_('Closed Dates').rows.filter(function(r){return r.IsActive==='Yes';}).map(function(r){return r.ClosedDate;}); return DcuLogic.findNearestDate(date,candidate,bookings,closed,DcuLogic.medRows());}
+function apiCheckCapacity(candidate){requireRole_(['Admin','Manager','Charge Nurse','Booking Staff','Nurse']); validateDateInRange_(candidate.RequestedAppointmentDate); return capacityFind_(candidate.RequestedAppointmentDate,candidate);}

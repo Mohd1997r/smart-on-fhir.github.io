@@ -2,7 +2,8 @@
   "name": "SMART-on-FHIR-docs",
   "version": "0.0.1",
   "scripts": {
-    "watch": "grunt"
+    "watch": "grunt",
+    "test": "node tests/run-tests.js"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
