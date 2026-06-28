@@ -1,0 +1,1 @@
+function audit_(actor,action,type,id,oldValue,newValue,reason,code){appendRow_('Audit Log',{AuditID:uuid_('AUD'),ActorEmail:(actor&&actor.email)||'system',Action:action,EntityType:type,EntityID:id,OldValue:JSON.stringify(oldValue||{}),NewValue:JSON.stringify(newValue||{}),Reason:reason||'',CreatedAt:now_(),ErrorCode:code||''});}

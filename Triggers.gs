@@ -1,0 +1,1 @@
+function installTriggers_(){var names=ScriptApp.getProjectTriggers().map(function(t){return t.getHandlerFunction();}); if(names.indexOf('scanNoArrivals_')<0) ScriptApp.newTrigger('scanNoArrivals_').timeBased().everyHours(1).create();}
