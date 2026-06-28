@@ -1,0 +1,1 @@
+var ConfigService=(function(){function getMode(){var rows=SheetRepository.readTable(DCU.SHEETS.CONFIG); var r=rows.filter(function(x){return x.Key==='SystemMode';})[0]; return r?r.Value:'SETUP';} function requireLive(){if(getMode()!=='LIVE') throw new Error('SYSTEM_NOT_LIVE');} return {getMode:getMode,requireLive:requireLive};})();

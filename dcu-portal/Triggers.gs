@@ -1,0 +1,3 @@
+function createTriggers(){var names=ScriptApp.getProjectTriggers().map(function(t){return t.getHandlerFunction();}); if(names.indexOf('triggerMiddayNoArrival')<0) ScriptApp.newTrigger('triggerMiddayNoArrival').timeBased().everyDays(1).atHour(12).create(); if(names.indexOf('triggerEndDayNoArrival')<0) ScriptApp.newTrigger('triggerEndDayNoArrival').timeBased().everyDays(1).atHour(16).create();}
+function triggerMiddayNoArrival(){NoArrivalService.scan(Utilities.formatDate(new Date(),DCU.TZ,'yyyy-MM-dd'));}
+function triggerEndDayNoArrival(){NoArrivalService.scan(Utilities.formatDate(new Date(),DCU.TZ,'yyyy-MM-dd'));}

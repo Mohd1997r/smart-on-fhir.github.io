@@ -1,0 +1,11 @@
+function doGet(e){var t=HtmlService.createTemplateFromFile('Index'); t.boot={route:e&&e.parameter&&e.parameter.route||'home',specialty:e&&e.parameter&&e.parameter.specialty||''}; return t.evaluate().setTitle('DCU Operations & Booking Portal').setXFrameOptionsMode(HtmlService.XFrameOptionsMode.DEFAULT).addMetaTag('viewport','width=device-width, initial-scale=1').addMetaTag('robots','noindex,nofollow');}
+function include(name){return HtmlService.createHtmlOutputFromFile(name).getContent();}
+function apiBootstrap(){var u=AuthService.currentUser(); return {user:u,specialties:SheetRepository.readTable(DCU.SHEETS.SPEC),medications:SheetRepository.readTable(DCU.SHEETS.MED).filter(function(m){return m.IsActive==='Yes';}),today:Utilities.formatDate(new Date(),DCU.TZ,'yyyy-MM-dd'),mode:ConfigService.getMode()};}
+function apiHome(date){return HuddleService.home(date);}
+function apiRecordArrival(data){return ArrivalService.recordArrival(data);}
+function apiManualAdd(data){return BookingService.manualAdd(data);}
+function apiActiveBookings(mrn){return ChangeService.activeByMrn(mrn);}
+function apiChangeAppointment(data){return ChangeService.changeAppointment(data);}
+function apiHuddle(date){return HuddleService.build(date);}
+function apiDoctorDashboard(specialty,date){var u=AuthService.requireRole(['Admin','Manager','Charge Nurse','Doctor','Read Only']); if(!AuthService.canSeeSpecialty(u,specialty)) throw new Error('ACCESS_DENIED_SPECIALTY'); return AuthService.filterRowsByUser(SheetRepository.readTable(DCU.SHEETS.BOOK).filter(function(b){return b.Specialty===specialty&&b.AppointmentDate===date&&b.BookingStatus==='Booked';}),u);}
+function apiBookingSearch(q){var u=AuthService.currentUser(); var rows=SheetRepository.readTable(DCU.SHEETS.BOOK).filter(function(b){return (!q.MRN||b.MRN===q.MRN)&&(!q.BookingID||b.BookingID===q.BookingID)&&(!q.MedicationID||b.MedicationID===q.MedicationID)&&(!q.AppointmentDate||b.AppointmentDate===q.AppointmentDate)&&(!q.Specialty||b.Specialty===q.Specialty)&&(!q.Consultant||b.Consultant===q.Consultant)&&(!q.BookingStatus||b.BookingStatus===q.BookingStatus)&&(!q.PatientName||String(b.PatientName).indexOf(q.PatientName)>=0);}); return AuthService.filterRowsByUser(rows,u);}
